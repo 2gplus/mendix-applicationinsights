@@ -13,6 +13,8 @@ import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 import com.mendix.core.Core;
 import twogapplicationinsights.ApplicationInsightsLogger;
+import twogapplicationinsights.helpers.DataHelper;
+import com.mendix.systemwideinterfaces.core.IMendixObject;
 
 /**
  * Use this action in the startup flow to initialize the connection to the Application Insights container. The instrumentation key is mandatory
@@ -22,18 +24,26 @@ public class InitializeApplicationInsights extends CustomJavaAction<java.lang.Bo
 	private java.lang.String InstrumentationKey;
 	private java.lang.String Application;
 	private java.lang.String LogLevel;
+	private java.util.List<IMendixObject> __StandardProperties;
+	private java.util.List<twogapplicationinsights.proxies.AppInsightProperty> StandardProperties;
 
-	public InitializeApplicationInsights(IContext context, java.lang.String InstrumentationKey, java.lang.String Application, java.lang.String LogLevel)
+	public InitializeApplicationInsights(IContext context, java.lang.String InstrumentationKey, java.lang.String Application, java.lang.String LogLevel, java.util.List<IMendixObject> StandardProperties)
 	{
 		super(context);
 		this.InstrumentationKey = InstrumentationKey;
 		this.Application = Application;
 		this.LogLevel = LogLevel;
+		this.__StandardProperties = StandardProperties;
 	}
 
 	@Override
 	public java.lang.Boolean executeAction() throws Exception
 	{
+		this.StandardProperties = new java.util.ArrayList<twogapplicationinsights.proxies.AppInsightProperty>();
+		if (__StandardProperties != null)
+			for (IMendixObject __StandardPropertiesElement : __StandardProperties)
+				this.StandardProperties.add(twogapplicationinsights.proxies.AppInsightProperty.initialize(getContext(), __StandardPropertiesElement));
+
 		// BEGIN USER CODE
 		if (InstrumentationKey == null || InstrumentationKey.trim().length() == 0)
 		{
@@ -49,6 +59,10 @@ public class InitializeApplicationInsights extends CustomJavaAction<java.lang.Bo
 		}
 		
 		logger.setApplicationContextId(Application);
+		
+		logger.setStaticProperties(DataHelper.convertProperties(StandardProperties));
+		
+		
 
 		Core.registerLogSubscriber(logger);
 

@@ -16,8 +16,6 @@ import com.mendix.logging.LogSubscriber;
 import com.microsoft.applicationinsights.TelemetryClient;
 import com.microsoft.applicationinsights.TelemetryConfiguration;
 import com.microsoft.applicationinsights.channel.concrete.inprocess.InProcessTelemetryChannel;
-import com.microsoft.applicationinsights.internal.logger.InternalLogger;
-import com.microsoft.applicationinsights.internal.logger.InternalLogger.LoggerOutputType;
 import com.microsoft.applicationinsights.telemetry.MetricTelemetry;
 import com.microsoft.applicationinsights.telemetry.RemoteDependencyTelemetry;
 import com.microsoft.applicationinsights.telemetry.RequestTelemetry;
@@ -44,7 +42,7 @@ public class ApplicationInsightsLogger extends LogSubscriber
 	private TelemetryClient _client;
 
 	/** Holds the application context id that can be used. */
-	private String _applicationContextId = "mendix";
+	private Map<String, String> _staticProperties = new HashMap<>();
 
 	/**
 	 * Holds the internal Mendix logger to log configuration information to. information logged here is not guaranteed to be logged into AppInsights as
@@ -98,7 +96,7 @@ public class ApplicationInsightsLogger extends LogSubscriber
 	 */
 	public String getApplicationContextId()
 	{
-		return _applicationContextId;
+		return _staticProperties.get("application");
 	}
 
 	/**
@@ -110,7 +108,7 @@ public class ApplicationInsightsLogger extends LogSubscriber
 	{
 		if (applicationContextId != null && applicationContextId.length() > 0)
 		{
-			_applicationContextId = applicationContextId;
+			_staticProperties.put("application", applicationContextId);
 		}
 	}
 
@@ -184,7 +182,7 @@ public class ApplicationInsightsLogger extends LogSubscriber
 
 			// Add the application context
 			Map<String, String> props = tt.getProperties();
-			props.put("application", getApplicationContextId());
+			copyStaticProperties(props);
 
 			// Add the rest of the message information into custom properties
 			props.put("mendix-category", msg.node.name());
@@ -203,6 +201,22 @@ public class ApplicationInsightsLogger extends LogSubscriber
 	}
 
 	/**
+	 * This method will copy the static properties to the request properties
+	 * 
+	 * @param props The properties where they should be copied to
+	 */
+	private void copyStaticProperties(Map<String, String> props)
+	{
+		if (props != null && _staticProperties.size() > 0)
+		{
+			for (String name : _staticProperties.keySet())
+			{
+				props.put(name, _staticProperties.get(name));
+			}
+		}
+	}
+
+	/**
 	 * This method will send the message to the application insights client
 	 * 
 	 * @param message The message to send
@@ -214,7 +228,7 @@ public class ApplicationInsightsLogger extends LogSubscriber
 
 		// Add the application context
 		Map<String, String> props = tt.getProperties();
-		props.put("application", getApplicationContextId());
+		copyStaticProperties(props);
 
 		if (properties != null)
 		{
@@ -239,9 +253,10 @@ public class ApplicationInsightsLogger extends LogSubscriber
 		{
 			if (_internalLogger.isTraceEnabled())
 			{
-				_internalLogger.trace("[TRACE] Going to send the trace message " + tt.getMessage() + " to application insights");
+				_internalLogger.trace(
+						"[TRACE] Going to send the trace message " + tt.getMessage() + " to application insights");
 			}
-			
+
 			_client.trackTrace(tt);
 		}
 	}
@@ -256,9 +271,10 @@ public class ApplicationInsightsLogger extends LogSubscriber
 		// Send the message to App Insights
 		if (_internalLogger.isTraceEnabled())
 		{
-			_internalLogger.trace("[REQUEST] Going to send the request telemetry for " + rt.getUrlString() + " to application insights");
+			_internalLogger.trace("[REQUEST] Going to send the request telemetry for " + rt.getUrlString()
+					+ " to application insights");
 		}
-		
+
 		_client.trackRequest(rt);
 	}
 
@@ -272,9 +288,10 @@ public class ApplicationInsightsLogger extends LogSubscriber
 		// Send the message to App Insights
 		if (_internalLogger.isTraceEnabled())
 		{
-			_internalLogger.trace("[DEPENDENCY] Going to send the dependency telemetry for " + rdt.getName() + "/" + rdt.getCommandName() + " to application insights");
+			_internalLogger.trace("[DEPENDENCY] Going to send the dependency telemetry for " + rdt.getName() + "/"
+					+ rdt.getCommandName() + " to application insights");
 		}
-		
+
 		_client.trackDependency(rdt);
 	}
 
@@ -288,9 +305,10 @@ public class ApplicationInsightsLogger extends LogSubscriber
 		// Send the message to App Insights
 		if (_internalLogger.isTraceEnabled())
 		{
-			_internalLogger.trace("[METRIC] Going to send the metric telemetry for " + mt.getName() + " to application insights");
+			_internalLogger.trace(
+					"[METRIC] Going to send the metric telemetry for " + mt.getName() + " to application insights");
 		}
-		
+
 		_client.trackMetric(mt);
 	}
 
@@ -400,6 +418,11 @@ public class ApplicationInsightsLogger extends LogSubscriber
 		default:
 			return SeverityLevel.Verbose;
 		}
+	}
+
+	public void setStaticProperties(Map<String, String> convertProperties)
+	{
+
 	}
 
 }
