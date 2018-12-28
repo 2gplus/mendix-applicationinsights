@@ -9,7 +9,7 @@ You can use custom attributes to provide correlation information to the Applicat
 
 ## Usage
 
-The Java action InitializeApplicationInsights needs to be called when the Mendix application starts. So add a call to this Java action in your AfterStartup flow. You need to provide an instrumentation key which is the unique identifier for your App Insights instance. Make a constant for this. You need this key later on to send custom traces.
+The Java action InitializeApplicationInsights needs to be called when the Mendix application starts. So add a call to this Java action in your AfterStartup flow. You need to provide an *instrumentation key* which is the unique identifier for your App Insights instance. Make a constant for this. You need this key later on to send custom traces.
 
 By default only informational messages and up are logged. If you want you can also send the traces to AppInsights. Be aware that this will also include the Jetty logs!
 

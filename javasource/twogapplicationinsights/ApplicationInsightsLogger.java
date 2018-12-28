@@ -420,9 +420,16 @@ public class ApplicationInsightsLogger extends LogSubscriber
 		}
 	}
 
-	public void setStaticProperties(Map<String, String> convertProperties)
+	/**
+	 * This method adds the static properties to the list. These will be sent with each request
+	 * 
+	 * @param newProperties The properties that should be added to each traces
+	 */
+	public void setStaticProperties(Map<String, String> newProperties)
 	{
-
+		for (String name : newProperties.keySet())
+		{
+			_staticProperties.put(name, newProperties.get(name));
+		}
 	}
-
 }
