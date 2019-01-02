@@ -12,10 +12,9 @@ package twogapplicationinsights.actions;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
-import com.microsoft.applicationinsights.telemetry.Duration;
 import com.microsoft.applicationinsights.telemetry.RequestTelemetry;
 import twogapplicationinsights.ApplicationInsightsLogger;
-import twogapplicationinsights.helpers.DataHelper;
+import twogapplicationinsights.helpers.TelemetryConverterHelper;
 
 public class TrackRequest extends CustomJavaAction<java.lang.Boolean>
 {
@@ -37,22 +36,8 @@ public class TrackRequest extends CustomJavaAction<java.lang.Boolean>
 
 		// BEGIN USER CODE
 
-		// Step 1: Convert the Mendix Metric object to the AppInsights Metric object
-		RequestTelemetry rt = new RequestTelemetry();
-
-		rt.setName(Request.getName());
-		rt.setUrl(Request.getUrl());
-		rt.setTimestamp(Request.getTimestamp());
-
-		rt.setDuration(new Duration(Request.getDuration()));
-		rt.setResponseCode(Request.getResponseCode());
-
-		rt.setSuccess(Request.getSuccess());
-		rt.setSource(Request.getSource());
-
-		rt.setSamplingPercentage(Request.getSamplingPercentage().doubleValue());
-
-		DataHelper.addToTelemetry(rt, Request.getCustomProperties());
+		// Step 1: Convert the Mendix Request object to the AppInsights Request object
+		RequestTelemetry rt = TelemetryConverterHelper.convertRequestTelemetry(Request);
 
 		// Step 2: send the metric to AppInsights loggers
 		if (InstrumentationKey == null || InstrumentationKey.length() == 0)

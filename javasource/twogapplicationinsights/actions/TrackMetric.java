@@ -9,13 +9,12 @@
 
 package twogapplicationinsights.actions;
 
-import java.math.BigDecimal;
 import com.mendix.systemwideinterfaces.core.IContext;
+import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
 import com.microsoft.applicationinsights.telemetry.MetricTelemetry;
 import twogapplicationinsights.ApplicationInsightsLogger;
-import twogapplicationinsights.helpers.DataHelper;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
+import twogapplicationinsights.helpers.TelemetryConverterHelper;
 
 public class TrackMetric extends CustomJavaAction<java.lang.Boolean>
 {
@@ -36,36 +35,11 @@ public class TrackMetric extends CustomJavaAction<java.lang.Boolean>
 		this.Metric = __Metric == null ? null : twogapplicationinsights.proxies.MetricTelemetry.initialize(getContext(), __Metric);
 
 		// BEGIN USER CODE
-		
-		//Convert the Mendix Metric object to the AppInsights Metric object
-		MetricTelemetry mt = new MetricTelemetry();
-		
-		mt.setName(Metric.getName());
-		mt.setTimestamp(Metric.getTimestamp());
-		
-		if (Metric.getMin() != null && (new BigDecimal(0)).compareTo(Metric.getMin()) > 0)
-		{
-			mt.setMin(Metric.getMin().doubleValue());
-		}
-		
-		if (Metric.getMax() != null && (new BigDecimal(0)).compareTo(Metric.getMax()) > 0)
-		{
-			mt.setMax(Metric.getMax().doubleValue());
-		}
-		
-		if (Metric.getCount() != null)
-		{
-			mt.setCount(Metric.getCount());
-		}
-		
-		if (Metric.getStandardDeviation() != null)
-		{
-			mt.setStandardDeviation(Metric.getStandardDeviation().doubleValue());
-		}
-		
-		DataHelper.addToTelemetry(mt, Metric.getCustomProperties());
-		
-		//Step 2: send the metric to AppInsights loggers
+
+		// Convert the Mendix Metric object to the AppInsights Metric object
+		MetricTelemetry mt = TelemetryConverterHelper.convertMetricTelemetry(Metric);
+
+		// Step 2: send the metric to AppInsights loggers
 		if (InstrumentationKey == null || InstrumentationKey.length() == 0)
 		{
 			ApplicationInsightsLogger.sendMetricToAll(mt);
@@ -75,7 +49,7 @@ public class TrackMetric extends CustomJavaAction<java.lang.Boolean>
 			ApplicationInsightsLogger logger = ApplicationInsightsLogger.getInstance(InstrumentationKey);
 			logger.sendMetric(mt);
 		}
-		
+
 		return Boolean.TRUE;
 		// END USER CODE
 	}

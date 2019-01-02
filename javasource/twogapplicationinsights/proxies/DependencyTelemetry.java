@@ -23,6 +23,7 @@ public class DependencyTelemetry extends twogapplicationinsights.proxies.Telemet
 		ResultCode("ResultCode"),
 		Target("Target"),
 		Timestamp("Timestamp"),
+		SequenceId("SequenceId"),
 		CustomProperties("TwoGApplicationInsights.CustomProperties");
 
 		private java.lang.String metaName;

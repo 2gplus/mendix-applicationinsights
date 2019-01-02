@@ -16,7 +16,10 @@ import com.mendix.logging.LogSubscriber;
 import com.microsoft.applicationinsights.TelemetryClient;
 import com.microsoft.applicationinsights.TelemetryConfiguration;
 import com.microsoft.applicationinsights.channel.concrete.inprocess.InProcessTelemetryChannel;
+import com.microsoft.applicationinsights.telemetry.EventTelemetry;
+import com.microsoft.applicationinsights.telemetry.ExceptionTelemetry;
 import com.microsoft.applicationinsights.telemetry.MetricTelemetry;
+import com.microsoft.applicationinsights.telemetry.PageViewTelemetry;
 import com.microsoft.applicationinsights.telemetry.RemoteDependencyTelemetry;
 import com.microsoft.applicationinsights.telemetry.RequestTelemetry;
 import com.microsoft.applicationinsights.telemetry.SeverityLevel;
@@ -180,11 +183,8 @@ public class ApplicationInsightsLogger extends LogSubscriber
 			tt.setTimestamp(new Date(msg.timestamp));
 			tt.setSeverityLevel(convertLevel(msg.level));
 
-			// Add the application context
-			Map<String, String> props = tt.getProperties();
-			copyStaticProperties(props);
-
 			// Add the rest of the message information into custom properties
+			Map<String, String> props = tt.getProperties();
 			props.put("mendix-category", msg.node.name());
 			if (msg.cause != null)
 			{
@@ -226,12 +226,11 @@ public class ApplicationInsightsLogger extends LogSubscriber
 	{
 		TraceTelemetry tt = new TraceTelemetry(message);
 
-		// Add the application context
-		Map<String, String> props = tt.getProperties();
-		copyStaticProperties(props);
-
 		if (properties != null)
 		{
+			// Add the application context
+			Map<String, String> props = tt.getProperties();
+
 			for (Entry<String, String> entry : properties.entrySet())
 			{
 				props.put(entry.getKey(), entry.getValue());
@@ -251,6 +250,10 @@ public class ApplicationInsightsLogger extends LogSubscriber
 	{
 		if (tt != null)
 		{
+			// Add the application context
+			Map<String, String> props = tt.getProperties();
+			copyStaticProperties(props);
+
 			if (_internalLogger.isTraceEnabled())
 			{
 				_internalLogger.trace(
@@ -268,6 +271,10 @@ public class ApplicationInsightsLogger extends LogSubscriber
 	 */
 	public void sendRequest(RequestTelemetry rt)
 	{
+		// Add the application context
+		Map<String, String> props = rt.getProperties();
+		copyStaticProperties(props);
+
 		// Send the message to App Insights
 		if (_internalLogger.isTraceEnabled())
 		{
@@ -285,6 +292,10 @@ public class ApplicationInsightsLogger extends LogSubscriber
 	 */
 	public void sendDependency(RemoteDependencyTelemetry rdt)
 	{
+		// Add the application context
+		Map<String, String> props = rdt.getProperties();
+		copyStaticProperties(props);
+
 		// Send the message to App Insights
 		if (_internalLogger.isTraceEnabled())
 		{
@@ -302,6 +313,10 @@ public class ApplicationInsightsLogger extends LogSubscriber
 	 */
 	public void sendMetric(MetricTelemetry mt)
 	{
+		// Add the application context
+		Map<String, String> props = mt.getProperties();
+		copyStaticProperties(props);
+
 		// Send the message to App Insights
 		if (_internalLogger.isTraceEnabled())
 		{
@@ -310,6 +325,69 @@ public class ApplicationInsightsLogger extends LogSubscriber
 		}
 
 		_client.trackMetric(mt);
+	}
+
+	/**
+	 * This method will send the exception telemetry to application insights.
+	 * 
+	 * @param et The exception telemetry details
+	 */
+	public void sendException(ExceptionTelemetry et)
+	{
+		// Add the application context
+		Map<String, String> props = et.getProperties();
+		copyStaticProperties(props);
+
+		// Send the message to App Insights
+		if (_internalLogger.isTraceEnabled())
+		{
+			_internalLogger.trace("[EXCEPTION] Going to send the exception telemetry for " + et.getEnvelopName()
+					+ " to application insights");
+		}
+
+		_client.trackException(et);
+	}
+
+	/**
+	 * This method will send the event telemetry to application insights.
+	 * 
+	 * @param et The event telemetry details
+	 */
+	public void sendEvent(EventTelemetry et)
+	{
+		// Add the application context
+		Map<String, String> props = et.getProperties();
+		copyStaticProperties(props);
+
+		// Send the message to App Insights
+		if (_internalLogger.isTraceEnabled())
+		{
+			_internalLogger.trace(
+					"[EXCEPTION] Going to send the event telemetry for " + et.getName() + " to application insights");
+		}
+
+		_client.trackEvent(et);
+	}
+
+	/**
+	 * This method will send the page view telemetry to application insights.
+	 * 
+	 * @param pvt The page view telemetry details
+	 */
+	public void sendPageView(PageViewTelemetry pvt)
+	{
+		// Add the application context
+		Map<String, String> props = pvt.getProperties();
+		copyStaticProperties(props);
+
+		// Send the message to App Insights
+		if (_internalLogger.isTraceEnabled())
+		{
+			_internalLogger.trace("[EXCEPTION] Going to send the page view telemetry for " + pvt.getName()
+					+ " to application insights");
+		}
+
+		_client.trackPageView(pvt);
 	}
 
 	/**
@@ -349,6 +427,45 @@ public class ApplicationInsightsLogger extends LogSubscriber
 		for (ApplicationInsightsLogger logger : _loggers.values())
 		{
 			logger.sendMetric(mt);
+		}
+	}
+	
+	/**
+	 * This method will send the event telemetry to all active loggers
+	 * 
+	 * @param mt The event telemetry to send the trace for
+	 */
+	public static void sendEventToAll(EventTelemetry mt)
+	{
+		for (ApplicationInsightsLogger logger : _loggers.values())
+		{
+			logger.sendEvent(mt);
+		}
+	}
+	
+	/**
+	 * This method will send the exception telemetry to all active loggers
+	 * 
+	 * @param mt The exception telemetry to send the trace for
+	 */
+	public static void sendExceptionToAll(ExceptionTelemetry mt)
+	{
+		for (ApplicationInsightsLogger logger : _loggers.values())
+		{
+			logger.sendException(mt);
+		}
+	}
+	
+	/**
+	 * This method will send the page view telemetry to all active loggers
+	 * 
+	 * @param mt The page view telemetry to send the trace for
+	 */
+	public static void sendPageViewToAll(PageViewTelemetry mt)
+	{
+		for (ApplicationInsightsLogger logger : _loggers.values())
+		{
+			logger.sendPageView(mt);
 		}
 	}
 

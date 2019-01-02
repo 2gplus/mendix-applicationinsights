@@ -21,6 +21,7 @@ public class TelemetryBase
 	public enum MemberNames
 	{
 		Timestamp("Timestamp"),
+		SequenceId("SequenceId"),
 		CustomProperties("TwoGApplicationInsights.CustomProperties");
 
 		private java.lang.String metaName;
@@ -71,11 +72,17 @@ public class TelemetryBase
 		if (com.mendix.core.Core.isSubClassOf("TwoGApplicationInsights.DependencyTelemetry", mendixObject.getType()))
 			return twogapplicationinsights.proxies.DependencyTelemetry.initialize(context, mendixObject);
 
+		if (com.mendix.core.Core.isSubClassOf("TwoGApplicationInsights.EventTelemetry", mendixObject.getType()))
+			return twogapplicationinsights.proxies.EventTelemetry.initialize(context, mendixObject);
+
 		if (com.mendix.core.Core.isSubClassOf("TwoGApplicationInsights.MetricTelemetry", mendixObject.getType()))
 			return twogapplicationinsights.proxies.MetricTelemetry.initialize(context, mendixObject);
 
 		if (com.mendix.core.Core.isSubClassOf("TwoGApplicationInsights.RequestTelemetry", mendixObject.getType()))
 			return twogapplicationinsights.proxies.RequestTelemetry.initialize(context, mendixObject);
+
+		if (com.mendix.core.Core.isSubClassOf("TwoGApplicationInsights.TelemetryWithMetricDataBase", mendixObject.getType()))
+			return twogapplicationinsights.proxies.TelemetryWithMetricDataBase.initialize(context, mendixObject);
 
 		if (com.mendix.core.Core.isSubClassOf("TwoGApplicationInsights.TraceTelemetry", mendixObject.getType()))
 			return twogapplicationinsights.proxies.TraceTelemetry.initialize(context, mendixObject);
@@ -154,6 +161,42 @@ public class TelemetryBase
 	public final void setTimestamp(com.mendix.systemwideinterfaces.core.IContext context, java.util.Date timestamp)
 	{
 		getMendixObject().setValue(context, MemberNames.Timestamp.toString(), timestamp);
+	}
+
+	/**
+	 * @return value of SequenceId
+	 */
+	public final java.lang.String getSequenceId()
+	{
+		return getSequenceId(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of SequenceId
+	 */
+	public final java.lang.String getSequenceId(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.String) getMendixObject().getValue(context, MemberNames.SequenceId.toString());
+	}
+
+	/**
+	 * Set value of SequenceId
+	 * @param sequenceid
+	 */
+	public final void setSequenceId(java.lang.String sequenceid)
+	{
+		setSequenceId(getContext(), sequenceid);
+	}
+
+	/**
+	 * Set value of SequenceId
+	 * @param context
+	 * @param sequenceid
+	 */
+	public final void setSequenceId(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String sequenceid)
+	{
+		getMendixObject().setValue(context, MemberNames.SequenceId.toString(), sequenceid);
 	}
 
 	/**

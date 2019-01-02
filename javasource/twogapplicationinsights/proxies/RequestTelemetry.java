@@ -24,6 +24,7 @@ public class RequestTelemetry extends twogapplicationinsights.proxies.TelemetryB
 		Source("Source"),
 		SamplingPercentage("SamplingPercentage"),
 		Timestamp("Timestamp"),
+		SequenceId("SequenceId"),
 		CustomProperties("TwoGApplicationInsights.CustomProperties");
 
 		private java.lang.String metaName;

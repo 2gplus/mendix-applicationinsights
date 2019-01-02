@@ -10,6 +10,11 @@ public class Constants
 {
 	// These are the constants for the Demo module
 
+	public static java.lang.String getAPPLICATION_CONTEXT_ID()
+	{
+		return (java.lang.String)Core.getConfiguration().getConstantValue("Demo.APPLICATION_CONTEXT_ID");
+	}
+
 	public static java.lang.String getINSTRUMENTATION_KEY()
 	{
 		return (java.lang.String)Core.getConfiguration().getConstantValue("Demo.INSTRUMENTATION_KEY");

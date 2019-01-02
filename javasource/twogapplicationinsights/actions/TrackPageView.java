@@ -12,42 +12,42 @@ package twogapplicationinsights.actions;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
-import com.microsoft.applicationinsights.telemetry.RemoteDependencyTelemetry;
+import com.microsoft.applicationinsights.telemetry.PageViewTelemetry;
 import twogapplicationinsights.ApplicationInsightsLogger;
 import twogapplicationinsights.helpers.TelemetryConverterHelper;
 
-public class TrackDependency extends CustomJavaAction<java.lang.Boolean>
+public class TrackPageView extends CustomJavaAction<java.lang.Boolean>
 {
 	private java.lang.String InstrumentationKey;
-	private IMendixObject __Dependency;
-	private twogapplicationinsights.proxies.DependencyTelemetry Dependency;
+	private IMendixObject __PageView;
+	private twogapplicationinsights.proxies.PageViewTelemetry PageView;
 
-	public TrackDependency(IContext context, java.lang.String InstrumentationKey, IMendixObject Dependency)
+	public TrackPageView(IContext context, java.lang.String InstrumentationKey, IMendixObject PageView)
 	{
 		super(context);
 		this.InstrumentationKey = InstrumentationKey;
-		this.__Dependency = Dependency;
+		this.__PageView = PageView;
 	}
 
 	@Override
 	public java.lang.Boolean executeAction() throws Exception
 	{
-		this.Dependency = __Dependency == null ? null : twogapplicationinsights.proxies.DependencyTelemetry.initialize(getContext(), __Dependency);
+		this.PageView = __PageView == null ? null : twogapplicationinsights.proxies.PageViewTelemetry.initialize(getContext(), __PageView);
 
 		// BEGIN USER CODE
 
-		// Step 1: Convert the Mendix Dependency object to the AppInsights Dependency object
-		RemoteDependencyTelemetry rdt = TelemetryConverterHelper.convertRemoteDependencyTelemetry(Dependency);
+		// Convert the Mendix PageView object to the AppInsights PageView object
+		PageViewTelemetry pvt = TelemetryConverterHelper.convertPageViewTelemetry(PageView);
 
 		// Step 2: send the metric to AppInsights loggers
 		if (InstrumentationKey == null || InstrumentationKey.length() == 0)
 		{
-			ApplicationInsightsLogger.sendDependencyToAll(rdt);
+			ApplicationInsightsLogger.sendPageViewToAll(pvt);
 		}
 		else
 		{
 			ApplicationInsightsLogger logger = ApplicationInsightsLogger.getInstance(InstrumentationKey);
-			logger.sendDependency(rdt);
+			logger.sendPageView(pvt);
 		}
 
 		return Boolean.TRUE;
@@ -61,7 +61,7 @@ public class TrackDependency extends CustomJavaAction<java.lang.Boolean>
 	@Override
 	public java.lang.String toString()
 	{
-		return "TrackDependency";
+		return "TrackPageView";
 	}
 
 	// BEGIN EXTRA CODE

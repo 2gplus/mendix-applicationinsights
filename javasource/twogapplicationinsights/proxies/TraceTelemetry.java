@@ -19,6 +19,7 @@ public class TraceTelemetry extends twogapplicationinsights.proxies.TelemetryBas
 		Message("Message"),
 		Level("Level"),
 		Timestamp("Timestamp"),
+		SequenceId("SequenceId"),
 		CustomProperties("TwoGApplicationInsights.CustomProperties");
 
 		private java.lang.String metaName;

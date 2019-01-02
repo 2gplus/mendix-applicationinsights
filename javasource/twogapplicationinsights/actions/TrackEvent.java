@@ -12,42 +12,42 @@ package twogapplicationinsights.actions;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
-import com.microsoft.applicationinsights.telemetry.RemoteDependencyTelemetry;
+import com.microsoft.applicationinsights.telemetry.EventTelemetry;
 import twogapplicationinsights.ApplicationInsightsLogger;
 import twogapplicationinsights.helpers.TelemetryConverterHelper;
 
-public class TrackDependency extends CustomJavaAction<java.lang.Boolean>
+public class TrackEvent extends CustomJavaAction<java.lang.Boolean>
 {
 	private java.lang.String InstrumentationKey;
-	private IMendixObject __Dependency;
-	private twogapplicationinsights.proxies.DependencyTelemetry Dependency;
+	private IMendixObject __Event;
+	private twogapplicationinsights.proxies.EventTelemetry Event;
 
-	public TrackDependency(IContext context, java.lang.String InstrumentationKey, IMendixObject Dependency)
+	public TrackEvent(IContext context, java.lang.String InstrumentationKey, IMendixObject Event)
 	{
 		super(context);
 		this.InstrumentationKey = InstrumentationKey;
-		this.__Dependency = Dependency;
+		this.__Event = Event;
 	}
 
 	@Override
 	public java.lang.Boolean executeAction() throws Exception
 	{
-		this.Dependency = __Dependency == null ? null : twogapplicationinsights.proxies.DependencyTelemetry.initialize(getContext(), __Dependency);
+		this.Event = __Event == null ? null : twogapplicationinsights.proxies.EventTelemetry.initialize(getContext(), __Event);
 
 		// BEGIN USER CODE
 
-		// Step 1: Convert the Mendix Dependency object to the AppInsights Dependency object
-		RemoteDependencyTelemetry rdt = TelemetryConverterHelper.convertRemoteDependencyTelemetry(Dependency);
+		// Convert the Mendix Event object to the AppInsights Event object
+		EventTelemetry et = TelemetryConverterHelper.convertEventTelemetry(Event);
 
 		// Step 2: send the metric to AppInsights loggers
 		if (InstrumentationKey == null || InstrumentationKey.length() == 0)
 		{
-			ApplicationInsightsLogger.sendDependencyToAll(rdt);
+			ApplicationInsightsLogger.sendEventToAll(et);
 		}
 		else
 		{
 			ApplicationInsightsLogger logger = ApplicationInsightsLogger.getInstance(InstrumentationKey);
-			logger.sendDependency(rdt);
+			logger.sendEvent(et);
 		}
 
 		return Boolean.TRUE;
@@ -61,7 +61,7 @@ public class TrackDependency extends CustomJavaAction<java.lang.Boolean>
 	@Override
 	public java.lang.String toString()
 	{
-		return "TrackDependency";
+		return "TrackEvent";
 	}
 
 	// BEGIN EXTRA CODE

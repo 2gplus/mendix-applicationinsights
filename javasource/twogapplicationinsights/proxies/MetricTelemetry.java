@@ -22,6 +22,7 @@ public class MetricTelemetry extends twogapplicationinsights.proxies.TelemetryBa
 		Count("Count"),
 		StandardDeviation("StandardDeviation"),
 		Timestamp("Timestamp"),
+		SequenceId("SequenceId"),
 		CustomProperties("TwoGApplicationInsights.CustomProperties");
 
 		private java.lang.String metaName;

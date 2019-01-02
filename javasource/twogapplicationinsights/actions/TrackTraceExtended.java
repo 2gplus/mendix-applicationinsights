@@ -14,7 +14,7 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
 import com.microsoft.applicationinsights.telemetry.TraceTelemetry;
 import twogapplicationinsights.ApplicationInsightsLogger;
-import twogapplicationinsights.helpers.DataHelper;
+import twogapplicationinsights.helpers.TelemetryConverterHelper;
 
 public class TrackTraceExtended extends CustomJavaAction<java.lang.Boolean>
 {
@@ -36,15 +36,8 @@ public class TrackTraceExtended extends CustomJavaAction<java.lang.Boolean>
 
 		// BEGIN USER CODE
 
-		// Step 1: Convert the Mendix Metric object to the AppInsights Metric object
-		TraceTelemetry tt = new TraceTelemetry();
-
-		tt.setMessage(Trace.getMessage());
-		tt.setTimestamp(Trace.getTimestamp());
-
-		tt.setSeverityLevel(DataHelper.convert(Trace.getLevel()));
-
-		DataHelper.addToTelemetry(tt, Trace.getCustomProperties());
+		// Step 1: Convert the Mendix Trace object to the AppInsights Trace object
+		TraceTelemetry tt = TelemetryConverterHelper.convertTraceTelemetry(Trace);
 
 		// Step 2: send the metric to AppInsights loggers
 		if (InstrumentationKey == null || InstrumentationKey.length() == 0)
