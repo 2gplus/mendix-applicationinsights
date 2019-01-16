@@ -23,16 +23,16 @@ public class InitializeApplicationInsights extends CustomJavaAction<java.lang.Bo
 {
 	private java.lang.String InstrumentationKey;
 	private java.lang.String Application;
-	private java.lang.String LogLevel;
+	private java.lang.String DesiredLogLevel;
 	private java.util.List<IMendixObject> __StandardProperties;
 	private java.util.List<twogapplicationinsights.proxies.AppInsightProperty> StandardProperties;
 
-	public InitializeApplicationInsights(IContext context, java.lang.String InstrumentationKey, java.lang.String Application, java.lang.String LogLevel, java.util.List<IMendixObject> StandardProperties)
+	public InitializeApplicationInsights(IContext context, java.lang.String InstrumentationKey, java.lang.String Application, java.lang.String DesiredLogLevel, java.util.List<IMendixObject> StandardProperties)
 	{
 		super(context);
 		this.InstrumentationKey = InstrumentationKey;
 		this.Application = Application;
-		this.LogLevel = LogLevel;
+		this.DesiredLogLevel = DesiredLogLevel;
 		this.__StandardProperties = StandardProperties;
 	}
 
@@ -53,9 +53,9 @@ public class InitializeApplicationInsights extends CustomJavaAction<java.lang.Bo
 		ApplicationInsightsLogger logger = ApplicationInsightsLogger.getInstance(InstrumentationKey);
 
 		// Set the log level if something else that INFO is wanted
-		if ((this.LogLevel != null) && !this.LogLevel.isEmpty())
+		if ((this.DesiredLogLevel != null) && !this.DesiredLogLevel.isEmpty())
 		{
-			logger.setLogLevel(com.mendix.logging.LogLevel.valueOf(this.LogLevel.toUpperCase()));
+			logger.setLogLevel(com.mendix.logging.LogLevel.valueOf(this.DesiredLogLevel.toUpperCase()));
 		}
 		
 		logger.setApplicationContextId(Application);
