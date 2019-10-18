@@ -9,3 +9,4 @@ deployment
 .gradle/
 .svn
 .mendix-cache
+/releases

@@ -179,7 +179,14 @@ public class ApplicationInsightsLogger extends LogSubscriber
 						+ " to application insights");
 			}
 
-			TraceTelemetry tt = new TraceTelemetry(msg.message.toString());
+			String message = "";
+			if (msg.message != null)
+			{
+				message = msg.message.toString();
+			}
+			TraceTelemetry tt = new TraceTelemetry(message);
+			
+			tt.setTimestamp(new Date(msg.timestamp));
 			tt.setTimestamp(new Date(msg.timestamp));
 			tt.setSeverityLevel(convertLevel(msg.level));
 
