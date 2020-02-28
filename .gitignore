@@ -10,3 +10,4 @@ deployment
 .svn
 .mendix-cache
 /releases
+/javasource/*/proxies

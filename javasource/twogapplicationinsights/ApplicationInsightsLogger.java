@@ -187,7 +187,6 @@ public class ApplicationInsightsLogger extends LogSubscriber
 			TraceTelemetry tt = new TraceTelemetry(message);
 			
 			tt.setTimestamp(new Date(msg.timestamp));
-			tt.setTimestamp(new Date(msg.timestamp));
 			tt.setSeverityLevel(convertLevel(msg.level));
 
 			// Add the rest of the message information into custom properties
