@@ -67,7 +67,7 @@ public class ApplicationInsightsLogger extends LogSubscriber
 		_internalLogger = Core.getLogger(AI_LOGGER_CATEGORY);
 
 		// We need to add the InProc telemetry channel so that the messages will actually be transmitted to Azure.
-		TelemetryConfiguration.getActive().setChannel(new InProcessTelemetryChannel());
+		TelemetryConfiguration.getActive().setChannel(new InProcessTelemetryChannel(TelemetryConfiguration.getActive()));
 
 		// The Application Insights client needs to be initialized.
 		_internalLogger.info("Creating AppInsights logger with key " + instrumentationKey);

@@ -1,0 +1,9 @@
+{
+    "files": [
+        "javasource/twogapplicationinsights/**/*",
+        "userlib/applicationinsights-web-2.6.4.jar",
+        "userlib/jakarta.xml.bind-api-2.3.2.jar",
+        "userlib/jaxb-runtime-2.3.2.jar",
+        "userlib/TwoGApplicationInsights.RequiredLib"
+    ]
+}
