@@ -4,7 +4,7 @@
 
 package twogapplicationinsights.proxies;
 
-public class EventTelemetry extends twogapplicationinsights.proxies.TelemetryBase
+public class EventTelemetry extends twogapplicationinsights.proxies.TelemetryWithMetricDataBase
 {
 	/**
 	 * Internal name of this entity
@@ -19,6 +19,7 @@ public class EventTelemetry extends twogapplicationinsights.proxies.TelemetryBas
 		Name("Name"),
 		Timestamp("Timestamp"),
 		SequenceId("SequenceId"),
+		AdditionalMetricData("TwoGApplicationInsights.AdditionalMetricData"),
 		CustomProperties("TwoGApplicationInsights.CustomProperties");
 
 		private java.lang.String metaName;

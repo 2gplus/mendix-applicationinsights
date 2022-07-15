@@ -15,9 +15,6 @@ public class Constants
 		return (java.lang.String)Core.getConfiguration().getConstantValue("Demo.APPLICATION_CONTEXT_ID");
 	}
 
-	/**
-	* fbe62dda-d98d-438b-b351-34b90cb12dfb
-	*/
 	public static java.lang.String getINSTRUMENTATION_KEY()
 	{
 		return (java.lang.String)Core.getConfiguration().getConstantValue("Demo.INSTRUMENTATION_KEY");

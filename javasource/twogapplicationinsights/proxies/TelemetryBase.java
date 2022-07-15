@@ -69,17 +69,8 @@ public class TelemetryBase
 	 */
 	public static twogapplicationinsights.proxies.TelemetryBase initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
-		if (com.mendix.core.Core.isSubClassOf("TwoGApplicationInsights.DependencyTelemetry", mendixObject.getType()))
-			return twogapplicationinsights.proxies.DependencyTelemetry.initialize(context, mendixObject);
-
-		if (com.mendix.core.Core.isSubClassOf("TwoGApplicationInsights.EventTelemetry", mendixObject.getType()))
-			return twogapplicationinsights.proxies.EventTelemetry.initialize(context, mendixObject);
-
 		if (com.mendix.core.Core.isSubClassOf("TwoGApplicationInsights.MetricTelemetry", mendixObject.getType()))
 			return twogapplicationinsights.proxies.MetricTelemetry.initialize(context, mendixObject);
-
-		if (com.mendix.core.Core.isSubClassOf("TwoGApplicationInsights.RequestTelemetry", mendixObject.getType()))
-			return twogapplicationinsights.proxies.RequestTelemetry.initialize(context, mendixObject);
 
 		if (com.mendix.core.Core.isSubClassOf("TwoGApplicationInsights.TelemetryWithMetricDataBase", mendixObject.getType()))
 			return twogapplicationinsights.proxies.TelemetryWithMetricDataBase.initialize(context, mendixObject);

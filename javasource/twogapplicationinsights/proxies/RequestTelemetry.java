@@ -4,7 +4,7 @@
 
 package twogapplicationinsights.proxies;
 
-public class RequestTelemetry extends twogapplicationinsights.proxies.TelemetryBase
+public class RequestTelemetry extends twogapplicationinsights.proxies.TelemetryWithMetricDataBase
 {
 	/**
 	 * Internal name of this entity
@@ -16,15 +16,17 @@ public class RequestTelemetry extends twogapplicationinsights.proxies.TelemetryB
 	 */
 	public enum MemberNames
 	{
-		Name("Name"),
-		Url("Url"),
+		RequestId("RequestId"),
 		Duration("Duration"),
 		ResponseCode("ResponseCode"),
 		Success("Success"),
 		Source("Source"),
+		Name("Name"),
+		Url("Url"),
 		SamplingPercentage("SamplingPercentage"),
 		Timestamp("Timestamp"),
 		SequenceId("SequenceId"),
+		AdditionalMetricData("TwoGApplicationInsights.AdditionalMetricData"),
 		CustomProperties("TwoGApplicationInsights.CustomProperties");
 
 		private java.lang.String metaName;
@@ -78,75 +80,39 @@ public class RequestTelemetry extends twogapplicationinsights.proxies.TelemetryB
 	}
 
 	/**
-	 * @return value of Name
+	 * @return value of RequestId
 	 */
-	public final java.lang.String getName()
+	public final java.lang.String getRequestId()
 	{
-		return getName(getContext());
+		return getRequestId(getContext());
 	}
 
 	/**
 	 * @param context
-	 * @return value of Name
+	 * @return value of RequestId
 	 */
-	public final java.lang.String getName(com.mendix.systemwideinterfaces.core.IContext context)
+	public final java.lang.String getRequestId(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		return (java.lang.String) getMendixObject().getValue(context, MemberNames.Name.toString());
+		return (java.lang.String) getMendixObject().getValue(context, MemberNames.RequestId.toString());
 	}
 
 	/**
-	 * Set value of Name
-	 * @param name
+	 * Set value of RequestId
+	 * @param requestid
 	 */
-	public final void setName(java.lang.String name)
+	public final void setRequestId(java.lang.String requestid)
 	{
-		setName(getContext(), name);
+		setRequestId(getContext(), requestid);
 	}
 
 	/**
-	 * Set value of Name
+	 * Set value of RequestId
 	 * @param context
-	 * @param name
+	 * @param requestid
 	 */
-	public final void setName(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String name)
+	public final void setRequestId(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String requestid)
 	{
-		getMendixObject().setValue(context, MemberNames.Name.toString(), name);
-	}
-
-	/**
-	 * @return value of Url
-	 */
-	public final java.lang.String getUrl()
-	{
-		return getUrl(getContext());
-	}
-
-	/**
-	 * @param context
-	 * @return value of Url
-	 */
-	public final java.lang.String getUrl(com.mendix.systemwideinterfaces.core.IContext context)
-	{
-		return (java.lang.String) getMendixObject().getValue(context, MemberNames.Url.toString());
-	}
-
-	/**
-	 * Set value of Url
-	 * @param url
-	 */
-	public final void setUrl(java.lang.String url)
-	{
-		setUrl(getContext(), url);
-	}
-
-	/**
-	 * Set value of Url
-	 * @param context
-	 * @param url
-	 */
-	public final void setUrl(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String url)
-	{
-		getMendixObject().setValue(context, MemberNames.Url.toString(), url);
+		getMendixObject().setValue(context, MemberNames.RequestId.toString(), requestid);
 	}
 
 	/**
@@ -291,6 +257,78 @@ public class RequestTelemetry extends twogapplicationinsights.proxies.TelemetryB
 	public final void setSource(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String source)
 	{
 		getMendixObject().setValue(context, MemberNames.Source.toString(), source);
+	}
+
+	/**
+	 * @return value of Name
+	 */
+	public final java.lang.String getName()
+	{
+		return getName(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of Name
+	 */
+	public final java.lang.String getName(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.String) getMendixObject().getValue(context, MemberNames.Name.toString());
+	}
+
+	/**
+	 * Set value of Name
+	 * @param name
+	 */
+	public final void setName(java.lang.String name)
+	{
+		setName(getContext(), name);
+	}
+
+	/**
+	 * Set value of Name
+	 * @param context
+	 * @param name
+	 */
+	public final void setName(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String name)
+	{
+		getMendixObject().setValue(context, MemberNames.Name.toString(), name);
+	}
+
+	/**
+	 * @return value of Url
+	 */
+	public final java.lang.String getUrl()
+	{
+		return getUrl(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of Url
+	 */
+	public final java.lang.String getUrl(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.String) getMendixObject().getValue(context, MemberNames.Url.toString());
+	}
+
+	/**
+	 * Set value of Url
+	 * @param url
+	 */
+	public final void setUrl(java.lang.String url)
+	{
+		setUrl(getContext(), url);
+	}
+
+	/**
+	 * Set value of Url
+	 * @param context
+	 * @param url
+	 */
+	public final void setUrl(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String url)
+	{
+		getMendixObject().setValue(context, MemberNames.Url.toString(), url);
 	}
 
 	/**

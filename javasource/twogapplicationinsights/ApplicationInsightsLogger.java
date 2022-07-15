@@ -56,7 +56,6 @@ public class ApplicationInsightsLogger extends LogSubscriber
 	/**
 	 * Constructor. Creates the subscriber with the given log level.
 	 * 
-	 * @param level The general log level that should be logged using this subscriber
 	 * @param instrumentationKey The key to use for creating the client
 	 */
 	private ApplicationInsightsLogger(String instrumentationKey)
@@ -146,7 +145,6 @@ public class ApplicationInsightsLogger extends LogSubscriber
 	 * the singleton is initialized.
 	 * 
 	 * @param logLevel The level of the messages to log.
-	 * @param instrumentationKey The instrumentation key to set the log level for.
 	 */
 	public void setLogLevel(LogLevel logLevel)
 	{

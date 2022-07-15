@@ -36,6 +36,7 @@ public class TelemetryConverterHelper
 	{
 		RemoteDependencyTelemetry rdt = new RemoteDependencyTelemetry();
 
+		rdt.setId(dependency.getDependencyId());
 		rdt.setName(dependency.getName());
 		rdt.setTimestamp(dependency.getTimestamp());
 
@@ -44,9 +45,13 @@ public class TelemetryConverterHelper
 
 		rdt.setSuccess(dependency.getSuccess());
 		rdt.setResultCode(dependency.getResultCode());
+		rdt.setType(dependency.getTypeName());
 		rdt.setTarget(dependency.getTarget());
 
 		DataHelper.addToTelemetry(rdt, dependency.getCustomProperties());
+
+		DataHelper.addMetrics(rdt.getMetrics(), dependency.getAdditionalMetricData());
+
 		return rdt;
 	}
 
@@ -71,6 +76,8 @@ public class TelemetryConverterHelper
 
 		DataHelper.addToTelemetry(et, event.getCustomProperties());
 
+		DataHelper.addMetrics(et.getMetrics(), event.getAdditionalMetricData());
+
 		return et;
 	}
 
@@ -85,6 +92,7 @@ public class TelemetryConverterHelper
 	{
 		// Since the exception API is based on a throwable we'll create it here
 		java.lang.Exception exc = new Exception(exception.getMessage());
+
 		ExceptionTelemetry et = new ExceptionTelemetry(exc);
 
 		et.setTimestamp(exception.getTimestamp());
@@ -96,21 +104,8 @@ public class TelemetryConverterHelper
 
 		et.setSeverityLevel(DataHelper.convert(exception.getSeverity()));
 
-		// Convert the metrics
-		List<MetricData> metrics = exception.getAdditionalMetricData();
-		if (metrics != null && metrics.size() > 0)
-		{
-			ConcurrentMap<String, Double> targetMetrics = et.getMetrics();
-			for (MetricData md : metrics)
-			{
-				if (md.getValue() != null)
-				{
-					targetMetrics.put(md.getName(), md.getValue().doubleValue());
-				}
-			}
-		}
-
 		DataHelper.addToTelemetry(et, exception.getCustomProperties());
+		DataHelper.addMetrics(et.getMetrics(), exception.getAdditionalMetricData());
 		return et;
 	}
 
@@ -164,6 +159,7 @@ public class TelemetryConverterHelper
 	{
 		RequestTelemetry rt = new RequestTelemetry();
 
+		rt.setId(request.getRequestId());
 		rt.setName(request.getName());
 		rt.setUrl(request.getUrl());
 		rt.setTimestamp(request.getTimestamp());
@@ -177,6 +173,9 @@ public class TelemetryConverterHelper
 		rt.setSamplingPercentage(request.getSamplingPercentage().doubleValue());
 
 		DataHelper.addToTelemetry(rt, request.getCustomProperties());
+
+		DataHelper.addMetrics(rt.getMetrics(), request.getAdditionalMetricData());
+
 		return rt;
 	}
 
@@ -197,6 +196,7 @@ public class TelemetryConverterHelper
 		tt.setSeverityLevel(DataHelper.convert(trace.getLevel()));
 
 		DataHelper.addToTelemetry(tt, trace.getCustomProperties());
+
 		return tt;
 	}
 
@@ -226,21 +226,10 @@ public class TelemetryConverterHelper
 
 		pvt.setDuration(pageView.getDuration());
 
-		// Convert the metrics
-		List<MetricData> metrics = pageView.getAdditionalMetricData();
-		if (metrics != null && metrics.size() > 0)
-		{
-			ConcurrentMap<String, Double> targetMetrics = pvt.getMetrics();
-			for (MetricData md : metrics)
-			{
-				if (md.getValue() != null)
-				{
-					targetMetrics.put(md.getName(), md.getValue().doubleValue());
-				}
-			}
-		}
-
 		DataHelper.addToTelemetry(pvt, pageView.getCustomProperties());
+
+		DataHelper.addMetrics(pvt.getMetrics(), pageView.getAdditionalMetricData());
+
 		return pvt;
 	}
 }

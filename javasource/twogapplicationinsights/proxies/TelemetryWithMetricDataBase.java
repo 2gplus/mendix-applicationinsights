@@ -62,11 +62,20 @@ public class TelemetryWithMetricDataBase extends twogapplicationinsights.proxies
 	 */
 	public static twogapplicationinsights.proxies.TelemetryWithMetricDataBase initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
+		if (com.mendix.core.Core.isSubClassOf("TwoGApplicationInsights.DependencyTelemetry", mendixObject.getType()))
+			return twogapplicationinsights.proxies.DependencyTelemetry.initialize(context, mendixObject);
+
+		if (com.mendix.core.Core.isSubClassOf("TwoGApplicationInsights.EventTelemetry", mendixObject.getType()))
+			return twogapplicationinsights.proxies.EventTelemetry.initialize(context, mendixObject);
+
 		if (com.mendix.core.Core.isSubClassOf("TwoGApplicationInsights.ExceptionTelemetry", mendixObject.getType()))
 			return twogapplicationinsights.proxies.ExceptionTelemetry.initialize(context, mendixObject);
 
 		if (com.mendix.core.Core.isSubClassOf("TwoGApplicationInsights.PageViewTelemetry", mendixObject.getType()))
 			return twogapplicationinsights.proxies.PageViewTelemetry.initialize(context, mendixObject);
+
+		if (com.mendix.core.Core.isSubClassOf("TwoGApplicationInsights.RequestTelemetry", mendixObject.getType()))
+			return twogapplicationinsights.proxies.RequestTelemetry.initialize(context, mendixObject);
 
 		return new twogapplicationinsights.proxies.TelemetryWithMetricDataBase(context, mendixObject);
 	}

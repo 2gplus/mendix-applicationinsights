@@ -4,7 +4,7 @@
 
 package twogapplicationinsights.proxies;
 
-public class DependencyTelemetry extends twogapplicationinsights.proxies.TelemetryBase
+public class DependencyTelemetry extends twogapplicationinsights.proxies.TelemetryWithMetricDataBase
 {
 	/**
 	 * Internal name of this entity
@@ -17,13 +17,16 @@ public class DependencyTelemetry extends twogapplicationinsights.proxies.Telemet
 	public enum MemberNames
 	{
 		Name("Name"),
-		Command("Command"),
+		DependencyId("DependencyId"),
+		ResultCode("ResultCode"),
 		Duration("Duration"),
 		Success("Success"),
-		ResultCode("ResultCode"),
+		Command("Command"),
+		TypeName("TypeName"),
 		Target("Target"),
 		Timestamp("Timestamp"),
 		SequenceId("SequenceId"),
+		AdditionalMetricData("TwoGApplicationInsights.AdditionalMetricData"),
 		CustomProperties("TwoGApplicationInsights.CustomProperties");
 
 		private java.lang.String metaName;
@@ -113,39 +116,75 @@ public class DependencyTelemetry extends twogapplicationinsights.proxies.Telemet
 	}
 
 	/**
-	 * @return value of Command
+	 * @return value of DependencyId
 	 */
-	public final java.lang.String getCommand()
+	public final java.lang.String getDependencyId()
 	{
-		return getCommand(getContext());
+		return getDependencyId(getContext());
 	}
 
 	/**
 	 * @param context
-	 * @return value of Command
+	 * @return value of DependencyId
 	 */
-	public final java.lang.String getCommand(com.mendix.systemwideinterfaces.core.IContext context)
+	public final java.lang.String getDependencyId(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		return (java.lang.String) getMendixObject().getValue(context, MemberNames.Command.toString());
+		return (java.lang.String) getMendixObject().getValue(context, MemberNames.DependencyId.toString());
 	}
 
 	/**
-	 * Set value of Command
-	 * @param command
+	 * Set value of DependencyId
+	 * @param dependencyid
 	 */
-	public final void setCommand(java.lang.String command)
+	public final void setDependencyId(java.lang.String dependencyid)
 	{
-		setCommand(getContext(), command);
+		setDependencyId(getContext(), dependencyid);
 	}
 
 	/**
-	 * Set value of Command
+	 * Set value of DependencyId
 	 * @param context
-	 * @param command
+	 * @param dependencyid
 	 */
-	public final void setCommand(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String command)
+	public final void setDependencyId(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String dependencyid)
 	{
-		getMendixObject().setValue(context, MemberNames.Command.toString(), command);
+		getMendixObject().setValue(context, MemberNames.DependencyId.toString(), dependencyid);
+	}
+
+	/**
+	 * @return value of ResultCode
+	 */
+	public final java.lang.String getResultCode()
+	{
+		return getResultCode(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of ResultCode
+	 */
+	public final java.lang.String getResultCode(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.String) getMendixObject().getValue(context, MemberNames.ResultCode.toString());
+	}
+
+	/**
+	 * Set value of ResultCode
+	 * @param resultcode
+	 */
+	public final void setResultCode(java.lang.String resultcode)
+	{
+		setResultCode(getContext(), resultcode);
+	}
+
+	/**
+	 * Set value of ResultCode
+	 * @param context
+	 * @param resultcode
+	 */
+	public final void setResultCode(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String resultcode)
+	{
+		getMendixObject().setValue(context, MemberNames.ResultCode.toString(), resultcode);
 	}
 
 	/**
@@ -221,39 +260,75 @@ public class DependencyTelemetry extends twogapplicationinsights.proxies.Telemet
 	}
 
 	/**
-	 * @return value of ResultCode
+	 * @return value of Command
 	 */
-	public final java.lang.String getResultCode()
+	public final java.lang.String getCommand()
 	{
-		return getResultCode(getContext());
+		return getCommand(getContext());
 	}
 
 	/**
 	 * @param context
-	 * @return value of ResultCode
+	 * @return value of Command
 	 */
-	public final java.lang.String getResultCode(com.mendix.systemwideinterfaces.core.IContext context)
+	public final java.lang.String getCommand(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		return (java.lang.String) getMendixObject().getValue(context, MemberNames.ResultCode.toString());
+		return (java.lang.String) getMendixObject().getValue(context, MemberNames.Command.toString());
 	}
 
 	/**
-	 * Set value of ResultCode
-	 * @param resultcode
+	 * Set value of Command
+	 * @param command
 	 */
-	public final void setResultCode(java.lang.String resultcode)
+	public final void setCommand(java.lang.String command)
 	{
-		setResultCode(getContext(), resultcode);
+		setCommand(getContext(), command);
 	}
 
 	/**
-	 * Set value of ResultCode
+	 * Set value of Command
 	 * @param context
-	 * @param resultcode
+	 * @param command
 	 */
-	public final void setResultCode(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String resultcode)
+	public final void setCommand(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String command)
 	{
-		getMendixObject().setValue(context, MemberNames.ResultCode.toString(), resultcode);
+		getMendixObject().setValue(context, MemberNames.Command.toString(), command);
+	}
+
+	/**
+	 * @return value of TypeName
+	 */
+	public final java.lang.String getTypeName()
+	{
+		return getTypeName(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of TypeName
+	 */
+	public final java.lang.String getTypeName(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.String) getMendixObject().getValue(context, MemberNames.TypeName.toString());
+	}
+
+	/**
+	 * Set value of TypeName
+	 * @param typename
+	 */
+	public final void setTypeName(java.lang.String typename)
+	{
+		setTypeName(getContext(), typename);
+	}
+
+	/**
+	 * Set value of TypeName
+	 * @param context
+	 * @param typename
+	 */
+	public final void setTypeName(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String typename)
+	{
+		getMendixObject().setValue(context, MemberNames.TypeName.toString(), typename);
 	}
 
 	/**
