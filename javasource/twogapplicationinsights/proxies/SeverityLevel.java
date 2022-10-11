@@ -10,7 +10,8 @@ public enum SeverityLevel
 	Error(new java.lang.String[][] { new java.lang.String[] { "en_US", "Error" } }),
 	Information(new java.lang.String[][] { new java.lang.String[] { "en_US", "Information" } }),
 	Warning(new java.lang.String[][] { new java.lang.String[] { "en_US", "Warning" } }),
-	Verbose(new java.lang.String[][] { new java.lang.String[] { "en_US", "Verbose" } });
+	Verbose(new java.lang.String[][] { new java.lang.String[] { "en_US", "Verbose" } }),
+	None(new java.lang.String[][] { new java.lang.String[] { "en_US", "None" } });
 
 	private java.util.Map<java.lang.String, java.lang.String> captions;
 

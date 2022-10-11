@@ -15,6 +15,19 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 public class Microflows
 {
 	// These are the microflows for the Demo module
+	public static java.util.List<twogapplicationinsights.proxies.LoggerLevel> dS_GetCurrentlLoggerLevels(IContext context)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		java.util.List<IMendixObject> objs = Core.microflowCall("Demo.DS_GetCurrentlLoggerLevels").withParams(params).execute(context);
+		java.util.List<twogapplicationinsights.proxies.LoggerLevel> result = null;
+		if (objs != null)
+		{
+			result = new java.util.ArrayList<>();
+			for (IMendixObject obj : objs)
+				result.add(twogapplicationinsights.proxies.LoggerLevel.initialize(context, obj));
+		}
+		return result;
+	}
 	public static twogapplicationinsights.proxies.DependencyTelemetry dS_NewDependencyMessage(IContext context)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
@@ -32,6 +45,12 @@ public class Microflows
 		Map<java.lang.String, Object> params = new HashMap<>();
 		IMendixObject result = (IMendixObject)Core.microflowCall("Demo.DS_NewExceptionMessage").withParams(params).execute(context);
 		return result == null ? null : twogapplicationinsights.proxies.ExceptionTelemetry.initialize(context, result);
+	}
+	public static twogapplicationinsights.proxies.LoggerLevel dS_NewLoggerLevel(IContext context)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		IMendixObject result = (IMendixObject)Core.microflowCall("Demo.DS_NewLoggerLevel").withParams(params).execute(context);
+		return result == null ? null : twogapplicationinsights.proxies.LoggerLevel.initialize(context, result);
 	}
 	public static twogapplicationinsights.proxies.MetricTelemetry dS_NewMetricMessage(IContext context)
 	{
@@ -56,6 +75,12 @@ public class Microflows
 		Map<java.lang.String, Object> params = new HashMap<>();
 		IMendixObject result = (IMendixObject)Core.microflowCall("Demo.DS_NewTraceMessage").withParams(params).execute(context);
 		return result == null ? null : twogapplicationinsights.proxies.TraceTelemetry.initialize(context, result);
+	}
+	public static void iVK_LogMicroflowDependency(IContext context, twogapplicationinsights.proxies.DependencyTelemetry _telemetry)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		params.put("Telemetry", _telemetry == null ? null : _telemetry.getMendixObject());
+		Core.microflowCall("Demo.IVK_LogMicroflowDependency").withParams(params).execute(context);
 	}
 	public static void iVK_SendDependencyMessage(IContext context, twogapplicationinsights.proxies.DependencyTelemetry _dependencyTelemetry)
 	{
@@ -105,6 +130,12 @@ public class Microflows
 		params.put("TraceTelemetry", _traceTelemetry == null ? null : _traceTelemetry.getMendixObject());
 		Core.microflowCall("Demo.IVK_SendTraceMessage").withParams(params).execute(context);
 	}
+	public static void iVK_SetLoggerLevel(IContext context, twogapplicationinsights.proxies.LoggerLevel _loggerLevel)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		params.put("LoggerLevel", _loggerLevel == null ? null : _loggerLevel.getMendixObject());
+		Core.microflowCall("Demo.IVK_SetLoggerLevel").withParams(params).execute(context);
+	}
 	public static boolean sUB_AfterStartup(IContext context)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
@@ -135,5 +166,10 @@ public class Microflows
 				result.add(twogapplicationinsights.proxies.AppInsightProperty.initialize(context, obj));
 		}
 		return result;
+	}
+	public static void sUB_DelayFlow(IContext context)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		Core.microflowCall("Demo.SUB_DelayFlow").withParams(params).execute(context);
 	}
 }
